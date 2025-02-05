@@ -1,26 +1,53 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { Form, useLoaderData, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import loginUser from '../lib/loginUser';
 
-// Native from web
-export function loader({ request }) {
-  // console.log(new URL(request.url).searchParams.get('message'));
-  return new URL(request.url).searchParams.get('message');
+// export function loader({ request }) {
+//   return new URL(request.url).searchParams.get('message');
+// }
+
+export async function action(obj) {
+  console.log(obj);
+  return null;
 }
 
 export default function Login() {
+  const message = useLoaderData();
+  const navigate = useNavigate();
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
   const [loginFormData, setLoginFormData] = useState({
     email: '',
     password: '',
   });
-  const message = useLoaderData();
+
   // with React-Router
   // const [searchParams, setSearchParams] = useSearchParams();
   // const message = searchParams.get('message');
   // console.log(message);
 
-  function handleSubmit(e) {
+  const loadingStyle = {
+    backgroundColor: '#161616',
+    textColor: '#ffffff',
+  };
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    setStatus('submitting');
+    setError(null);
     console.log(loginFormData);
+    try {
+      const response = await loginUser(loginFormData).then((data) => data);
+      console.log(response);
+      setStatus('idle');
+      navigate('/host');
+    } catch (error) {
+      setError(error);
+      console.log('An error has occured');
+      console.log(error);
+    } finally {
+      setStatus('idle');
+    }
   }
 
   function handleChange(e) {
@@ -30,13 +57,19 @@ export default function Login() {
       [name]: value,
     }));
   }
+  // Use "b@b.com" as the username and
+  //  *    "p123" as the password.
+
   return (
     <div className="login-container">
       <h1 className="mb-5 text-3xl font-bold">Sign in to your account</h1>
       {message && (
         <h3 className="mb-2 text-lg font-bold text-red-500">{message}</h3>
       )}
-      <form onSubmit={handleSubmit} className="login-form">
+      {error && (
+        <h3 className="mb-2 text-lg font-bold text-red-500">{error.message}</h3>
+      )}
+      <Form method="POST" className="login-form">
         <input
           name="email"
           onChange={handleChange}
@@ -51,8 +84,14 @@ export default function Login() {
           placeholder="Password"
           value={loginFormData.password}
         />
-        <button>Log in</button>
-      </form>
+        <button
+          type="submit"
+          disabled={status === 'submitting'}
+          style={status === 'submitting' ? loadingStyle : null}
+        >
+          {status === 'submitting' ? 'Logging in...' : 'Login'}
+        </button>
+      </Form>
     </div>
   );
 }
