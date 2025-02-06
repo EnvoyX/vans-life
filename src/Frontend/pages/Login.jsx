@@ -1,8 +1,14 @@
-import { Form, useLoaderData, useNavigate } from 'react-router-dom';
+import { Form, useLoaderData, useNavigate, redirect } from 'react-router-dom';
 import { useState } from 'react';
 import loginUser from '../lib/loginUser';
 
 export function loader({ request }) {
+  const isLoggedIn = localStorage.getItem('loggedIn');
+  if (isLoggedIn) {
+    const response = redirect('/');
+    response.body = true;
+    return response;
+  }
   return new URL(request.url).searchParams.get('message');
 }
 
@@ -25,10 +31,6 @@ export async function action({ request }) {
 export default function Login() {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
-  // const [loginFormData, setLoginFormData] = useState({
-  //   email: '',
-  //   password: '',
-  // });
   const message = useLoaderData();
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem('loggedIn');
@@ -36,11 +38,6 @@ export default function Login() {
     backgroundColor: '#161616',
     textColor: '#ffffff',
   };
-
-  // with React-Router
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const message = searchParams.get('message');
-  // console.log(message);
 
   if (isLoggedIn) {
     navigate('/host');
@@ -65,14 +62,6 @@ export default function Login() {
     }
   }
 
-  // function handleChange(e) {
-  //   const { name, value } = e.target;
-  //   setLoginFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // }
-
   // Use "b@b.com" as the username and
   //  *    "p123" as the password.
 
@@ -87,22 +76,18 @@ export default function Login() {
       {error && (
         <h3 className="mb-2 text-lg font-bold text-red-500">{error.message}</h3>
       )}
-      <Form method="POST" className="login-form">
+      <Form method="POST" className="login-form" replace>
         <input
           name="email"
           type="email"
           placeholder="Email address"
           value={'b@b.com'}
-          // onChange={handleChange}
-          // value={loginFormData.email}
         />
         <input
           name="password"
           type="password"
           placeholder="Password"
           value={'p123'}
-          // onChange={handleChange}
-          // value={loginFormData.password}
         />
         <button
           type="submit"

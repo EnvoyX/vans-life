@@ -45,12 +45,14 @@ export default function Header() {
           Vans
         </NavLink>
 
-        <Link to="login" className="login-link">
-          <img src={avatarImage} className="login-icon h-5 w-5" />
-        </Link>
+        {!isLoggedIn && (
+          <Link to="login" className="login-link">
+            <img src={avatarImage} className="login-icon h-5 w-5" />
+          </Link>
+        )}
         {isLoggedIn && (
           <button
-            className="font-bold ml-5 text-[#4d4d4d] hover:underline hover:text-[#161616] cursor-pointer"
+            className="font-bold text-[#4d4d4d] hover:underline hover:text-[#161616] cursor-pointer"
             onClick={fakeLogOut}
           >
             Log Out
