@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 
+/* CSS RESET */
 * {
   box-sizing: border-box;
 }
@@ -11,11 +12,7 @@ body {
   background-color: #fff7ed;
   font-family: 'Inter', sans-serif;
 }
-
-a {
-  text-decoration: unset;
-  color: unset;
-}
+/* CSS RESET */
 
 body::-webkit-scrollbar {
   display: none;
@@ -26,44 +23,33 @@ body {
   scrollbar-width: none;
 }
 
-.site-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-header {
+/* header {
   height: 110px;
   display: flex;
   align-items: center;
   padding-block: 10px;
-}
+} */
 
-header .site-logo {
+/* header .site-logo {
   color: black;
   margin-right: auto;
   text-transform: uppercase;
   font-weight: 900;
   font-size: 25px;
-}
+} */
 
-header a {
+/* header a {
   text-decoration: none;
   color: #4d4d4d;
   font-weight: 600;
-  padding: 5px 15px;
+  padding: 5px 20px;
 }
 
 header a:hover {
   color: #161616;
   text-decoration: underline;
-}
-
-header button {
-  cursor: pointer;
-}
-
-header .login-icon {
+} */
+/* header .login-icon {
   height: 18px;
   width: 18px;
 }
@@ -71,29 +57,9 @@ header .login-icon {
 header .login-link {
   display: inline-flex;
   align-items: center;
-}
+} */
 
-nav {
-  display: flex;
-}
-
-main {
-  margin-bottom: 84px;
-}
-
-footer {
-  background-color: #161616;
-  color: #aaaaaa;
-  height: 74px;
-  display: flex;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-  font-weight: 500;
-}
-
-.link-button {
+/* .link-button {
   display: inline-block;
   text-align: center;
   text-decoration: none;
@@ -106,22 +72,15 @@ footer {
   transition: transform 0.1s ease-in-out;
 }
 
-.back-button {
-  display: block;
-  color: black;
-  text-decoration: none;
-  margin-left: 26px;
-}
-
-.back-button span:hover {
-  text-decoration: underline;
-}
-
 .link-button:hover {
   transform: translate(1px, 1px);
-}
+  -webkit-transform: translate(1px, 1px);
+  -moz-transform: translate(1px, 1px);
+  -ms-transform: translate(1px, 1px);
+  -o-transform: translate(1px, 1px);
+} */
 
-/*** HOME PAGE ***/
+/* HOME PAGE */
 .home-container {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46)),
     url('./assets/images/home-hero.png') no-repeat center center;
@@ -131,19 +90,20 @@ footer {
   background-size: cover;
   min-height: 350px;
   color: white;
-  padding: 45px 23px;
+  padding: 45px 25px;
 }
 
-.home-container h1 {
+/* .home-container h1 {
   font-weight: 700;
   font-size: 2.25rem;
   line-height: 42px;
-}
+}  */
 
-.home-container p {
+/* .home-container p {
   line-height: 24px;
-}
+} */
 
+/* 
 .home-container a {
   display: inline-block;
   text-align: center;
@@ -157,64 +117,56 @@ footer {
   font-weight: 700;
   border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-}
+  transition: transform 0.1s ease-in-out;  
+} */
 
-.home-container a:hover {
+/* .home-container a:hover {
   transform: translate(1px, 1px);
-}
+} */
 
-/*** ABOUT PAGE ***/
-.about-hero-image {
+/** ABOUT PAGE **/
+
+/* .about-hero-image {
   max-width: 100%;
-}
+} */
 
-.about-page-content {
+/* .about-page-content {
   padding-inline: 23px;
   color: #161616;
   margin-bottom: 55px;
-}
+} */
 
-.about-page-content h1 {
+/* .about-page-content h1 {
   line-height: 38px;
 }
 
 .about-page-content p {
   line-height: 22px;
-}
+} */
 
-.about-page-cta {
+/* .about-page-cta {
   background-color: #ffcc8d;
   color: #161616;
   padding-inline: 32px;
   padding-bottom: 32px;
   margin-inline: 27px;
   border-radius: 5px;
-}
+} */
 
-.about-page-cta h2 {
+/* .about-page-cta h2 {
   margin: 0;
   padding-block: 37px;
-}
+} */
 
-.about-page-cta .link-button {
+/* .about-page-cta .link-button {
   background-color: #161616;
   color: white;
   border-radius: 10px;
-}
+} */
 
 /*** VAN PAGES ***/
-.van-list-container {
+/* .van-list-container {
   padding-inline: 23px;
-}
-
-.van-list-filter-buttons {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.van-list-filter-buttons > a {
-  margin-right: 15px;
 }
 
 .van-list {
@@ -238,7 +190,7 @@ footer {
 .van-list-container button {
   margin-right: 20px;
   cursor: pointer;
-}
+} */
 
 .van-type {
   height: 34px;
@@ -296,9 +248,11 @@ i[class*='van-type-'] {
   padding: 7px 14px;
 }
 
-.van-detail-container {
-  padding-inline: 27px;
-}
+/* Van Details Page */
+
+/* .van-detail-container {
+  padding: 27px;
+} */
 
 .van-detail-container .back-button {
   color: black;
@@ -312,45 +266,45 @@ i[class*='van-type-'] {
   text-decoration: underline;
 }
 
-.van-detail {
+/* .van-detail {
   display: flex;
   flex-direction: column;
   color: #161616;
-}
+} */
 
-.van-detail img {
+/* .van-detail img {
   border-radius: 5px;
   margin-block: 47px;
-}
+} */
 
-.van-detail h2 {
+/* .van-detail h2 {
   font-size: 2rem;
   margin-bottom: 10px;
-}
+} */
 
-.van-detail > i {
+/* .van-information > i {
   align-self: flex-start;
-}
+} */
 
-.van-detail .van-price {
+/* .van-detail .van-price {
   font-size: 1.25rem;
   margin-bottom: 10px;
-}
+} */
 
-.van-detail .van-price span {
+/* .van-detail .van-price span {
   font-weight: 700;
   font-size: 1.5rem;
-}
+} */
 
-.van-detail .link-button {
-  background-color: #ff8c38;
+/* .van-detail .link-button {
+  background-color: #FF8C38;
   color: white;
   font-size: 1.125rem;
-}
+}  */
 
+/* Host Navigation */
 .host-nav {
   display: flex;
-  margin-bottom: 30px;
 }
 
 .host-nav a {
@@ -366,6 +320,7 @@ i[class*='van-type-'] {
   font-weight: 600;
 }
 
+/* Van Host Page */
 .host-van-link-wrapper {
   color: unset;
   text-decoration: unset;
@@ -404,6 +359,7 @@ i[class*='van-type-'] {
   margin-block: 10px;
 }
 
+/* Van Host Detail */
 .host-van-detail-layout-container {
   background-color: white;
   padding: 24px;
@@ -483,16 +439,6 @@ i[class*='van-type-'] {
   border-radius: 5px;
 }
 
-.not-found-container {
-  padding-inline: 26px;
-}
-
-.not-found-container .link-button {
-  width: 100%;
-  background-color: #161616;
-  color: white;
-}
-
 .login-container {
   display: flex;
   flex-direction: column;
@@ -537,15 +483,6 @@ i[class*='van-type-'] {
   margin-top: 22px;
   color: white;
   font-family: 'Inter', sans-serif;
-}
-
-.login-form > button:disabled {
-  background-color: #aaaaaa;
-  cursor: not-allowed;
-}
-
-.red {
-  color: #cc0000;
 }
 
 .host-dashboard-earnings {
