@@ -9,8 +9,7 @@ export default function Header() {
     textDecoration: 'underline',
     color: '#161616',
   };
-
-  function fakeLogOut() {
+  function logOut() {
     localStorage.removeItem('loggedIn');
     navigate('/login');
   }
@@ -44,7 +43,6 @@ export default function Header() {
         >
           Vans
         </NavLink>
-
         {!isLoggedIn && (
           <Link to="login" className="login-link">
             <img src={avatarImage} className="login-icon h-5 w-5" />
@@ -53,7 +51,7 @@ export default function Header() {
         {isLoggedIn && (
           <button
             className="font-bold text-[#4d4d4d] hover:underline hover:text-[#161616] cursor-pointer"
-            onClick={fakeLogOut}
+            onClick={logOut}
           >
             Log Out
           </button>

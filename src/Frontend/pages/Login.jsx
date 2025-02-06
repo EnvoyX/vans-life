@@ -1,18 +1,19 @@
-import { Form, useLoaderData, useNavigate, redirect } from 'react-router-dom';
-import { useState } from 'react';
+import {
+  Form,
+  useLoaderData,
+  useNavigation,
+  redirect,
+  useActionData,
+} from 'react-router-dom';
 import loginUser from '../lib/loginUser';
 
 export function loader({ request }) {
-  const isLoggedIn = localStorage.getItem('loggedIn');
-  if (isLoggedIn) {
-    const response = redirect('/');
-    response.body = true;
-    return response;
-  }
   return new URL(request.url).searchParams.get('message');
 }
 
 export async function action({ request }) {
+  const pathname =
+    new URL(request.url).searchParams.get('redirectTo') || '/host';
   console.log(request);
   const formData = await request.formData();
 
@@ -22,49 +23,30 @@ export async function action({ request }) {
   const password = formData.get('password');
   console.log(email, password);
 
-  const data = await loginUser({ email, password });
-  console.log(data);
-  localStorage.setItem('loggedIn', true);
-  return null;
+  try {
+    const data = await loginUser({ email, password });
+    console.log(data);
+    localStorage.setItem('loggedIn', true);
+    const response = redirect(pathname);
+    response.body = true;
+    return response;
+  } catch (err) {
+    console.log(err);
+    return err.message;
+  }
 }
 
 export default function Login() {
-  const [status, setStatus] = useState('idle');
-  const [error, setError] = useState(null);
   const message = useLoaderData();
-  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const errorMessage = useActionData();
   const isLoggedIn = localStorage.getItem('loggedIn');
   const loadingStyle = {
-    backgroundColor: '#161616',
+    backgroundColor: '#aaaaaa',
     textColor: '#ffffff',
+    cursor: 'not-allowed',
   };
-
-  if (isLoggedIn) {
-    navigate('/host');
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setStatus('submitting');
-    setError(null);
-    console.log(loginFormData);
-    try {
-      const response = await loginUser(loginFormData).then((data) => data);
-      console.log(response);
-      setStatus('idle');
-      navigate('/host');
-    } catch (error) {
-      setError(error);
-      console.log('An error has occured');
-      console.log(error);
-    } finally {
-      setStatus('idle');
-    }
-  }
-
-  // Use "b@b.com" as the username and
-  //  *    "p123" as the password.
-
+  console.log(navigation);
   return (
     <div className="login-container">
       <h1 className="mb-5 text-3xl font-bold">Sign in to your account</h1>
@@ -73,28 +55,18 @@ export default function Login() {
         : message && (
             <h3 className="mb-2 text-lg font-bold text-red-500">{message}</h3>
           )}
-      {error && (
-        <h3 className="mb-2 text-lg font-bold text-red-500">{error.message}</h3>
+      {errorMessage && (
+        <h3 className="mb-2 text-lg font-bold text-red-500">{errorMessage}</h3>
       )}
       <Form method="POST" className="login-form" replace>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email address"
-          value={'b@b.com'}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={'p123'}
-        />
+        <input name="email" type="email" placeholder="Email address" />
+        <input name="password" type="password" placeholder="Password" />
         <button
           type="submit"
-          disabled={status === 'submitting'}
-          style={status === 'submitting' ? loadingStyle : null}
+          disabled={navigation.state === 'submitting'}
+          style={navigation.state === 'submitting' ? loadingStyle : null}
         >
-          {status === 'submitting' ? 'Logging in...' : 'Login'}
+          {navigation.state === 'submitting' ? 'Logging in...' : 'Login'}
         </button>
       </Form>
     </div>
