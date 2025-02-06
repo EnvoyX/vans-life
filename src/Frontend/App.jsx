@@ -1,7 +1,7 @@
 import './App.css';
 import '../Backend/api/server';
 import requireAuth from './utility/requireAuth';
-import getHostVans from './lib/getHostVans';
+import getVansHost from './lib/getVansHost';
 import {
   Route,
   createBrowserRouter,
@@ -35,7 +35,7 @@ import Login, {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Layout />} errorElement={<Error></Error>}>
+      <Route path="/" element={<Layout />}>
         <Route index element={<Home />}></Route>
         <Route path="about" element={<About />}></Route>
         <Route
@@ -44,17 +44,26 @@ const router = createBrowserRouter(
           action={loginAction}
           loader={loginLoader}
         ></Route>
-        <Route path="vans" element={<Vans />} loader={vansPageLoader}></Route>
+        <Route
+          path="vans"
+          element={<Vans />}
+          loader={vansPageLoader}
+          errorElement={<Error></Error>}
+        ></Route>
         <Route
           path="vans/:id"
           element={<VansDetail />}
           loader={vansDetailPageLoader}
+          errorElement={<Error></Error>}
         ></Route>
         <Route path="host" element={<HostLayout />}>
           <Route
             index
             element={<Dashboard />}
-            loader={async ({ request }) => await requireAuth(request)}
+            loader={async ({ request }) => {
+              await requireAuth(request);
+              return { vans: getVansHost() };
+            }}
           />
           <Route
             path="income"
@@ -69,6 +78,7 @@ const router = createBrowserRouter(
           <Route
             path="vans"
             element={<VansHost />}
+            errorElement={<Error></Error>}
             loader={async ({ request }) => {
               const isLoggedIn = localStorage.getItem('loggedIn');
               const pathname = new URL(request.url).pathname;
@@ -79,15 +89,16 @@ const router = createBrowserRouter(
                 response.body = true;
                 return response;
               }
-              return getHostVans();
+              return { vansHost: getVansHost() };
             }}
           />
           <Route
             path="vans/:id"
             element={<VansHostDetail />}
+            errorElement={<Error></Error>}
             loader={async ({ request, params }) => {
               await requireAuth(request);
-              return getHostVans(params.id);
+              return getVansHost(params.id);
             }}
           >
             <Route

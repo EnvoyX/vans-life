@@ -1,4 +1,4 @@
-export default async function getHostVans(id) {
+export default async function getVansHost(id) {
   const url = id ? `/api/host/vans/${id}` : '/api/host/vans';
   const res = await fetch(url);
   if (!res.ok) {
