@@ -26,7 +26,10 @@ import VansHostPhotos from './pages/Host/VansHostPhotos';
 import VansHostPricing from './pages/Host/VansHostPricing';
 import NotFound from './components/NotFound';
 import Error from './components/Error';
-import Login, { action as loginAction } from './pages/Login';
+import Login, {
+  action as loginAction,
+  loader as loginLoader,
+} from './pages/Login';
 import requireAuth from './utility/requireAuth';
 
 const router = createBrowserRouter(
@@ -35,7 +38,12 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />}></Route>
         <Route path="about" element={<About />}></Route>
-        <Route path="login" element={<Login />} action={loginAction}></Route>
+        <Route
+          path="login"
+          element={<Login />}
+          action={loginAction}
+          loader={loginLoader}
+        ></Route>
         <Route
           path="vans"
           element={<Vans />}
